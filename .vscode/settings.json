@@ -1,0 +1,5 @@
+{
+    "python.pythonPath": "cle_env/bin/python",
+    "python.linting.pylintArgs": [
+        "--load-plugins=pylint_django"]
+}

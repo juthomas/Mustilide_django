@@ -61,7 +61,7 @@ def affiche_ajouter(request):
 
 		##
 	# END
-	return render(request, 'cle/page_ajouter.html', {'range': range(3)})
+	return render(request, 'cle/page_ajouter.html', {})
 
 def affiche_specialiste(request):
 	return render(request, 'cle/page_specialiste.html', {})

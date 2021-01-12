@@ -2,43 +2,67 @@
 {% block contenu_page %}
 
 <script>
+	// Liste Des ID de caracteres ajoutes (Pour pas les confondre)
 	var currentCaractereNumber = [];
 
 
+	// Fonction appelee quand on appuie sur le bouton "Ajouter Caractere"
 	function AddCaractereInput ()
 	{
+		// On cherche un ID pas encore attribue pour l'associer au nouveau caractere cree
 		var i = 0;
 		while (currentCaractereNumber.indexOf(i) >= 0)
 			i++;
+
+		// On envoie l'ID trouvé dans la liste d'ID des caractes
 		currentCaractereNumber.push(i);
+
+		// On met le code html du formulaire dans une variable JS pour pouvoir y acceder plus facilement
 		var extendable_form = document.getElementById('myForm')
+		
+		// On cree un element HTML de type P
 		var tag = document.createElement("p");
+		
+		// On attribue un ID Html a de notre nouvelle balise
 		tag.id = 'id' + i;
-		var caractere = '<p> Texte ' + i + ' : </p> <input type="text" name="Mail"> \
-			<button type="button" onclick="RmCurrentCaractereInput(\'id' + i + '\')" >Suppress</button>'
-		// var caractere = '<p> Texte : </p> <input type="text" name="Mail"> \
-		// <button type="button"  >Plus</button>'
 		
+		// On cree l'html de notre formulaire de caractere
+		// (avec un nom, un id, et un parametre pour la fonction de suppression qui correspond à l"ID)
+		var caractere = '<p> Caractere ' + i + ' : </p> 		Nom Caractere X \
+		<input type="text" name="caractereX">\
+		</br>\
+		Etat X\
+		<input type="text" name="etatX">\
+			<button type="button" onclick="RmCurrentCaractereInput(\'id' + i + '\')" >Supprimer Caractere</button>'
+
+		// On met le code HTML ci-dessus dans notre balise <p>
 		tag.innerHTML = caractere;
-		// extendable_form.appendChild(tag)
-		extendable_form.insertBefore(tag, document.getElementById("AddInput"));
-		console.log(currentCaractereNumber.toString());
-
 		
-
+		// On ajoute la balise Html qu'on vient de creer juste avant le bouton qui sert a ajouter un caractere
+		extendable_form.insertBefore(tag, document.getElementById("AddInput"));
+		
+		
+		
+		// console.log(currentCaractereNumber.toString());
 	}
 
+	// Fonction pour supprimer le caractere actuel
 	function RmCurrentCaractereInput(id)
 	{
 		console.log(currentCaractereNumber.toString());
 		console.log('slice : "' + id.slice(2) + '"' );
 		console.log('index of :' + currentCaractereNumber.indexOf(parseInt(id.slice(2))))
-		var extendable_form = document.getElementById('myForm')
-		var inputButton = document.getElementById(id)
-		extendable_form.removeChild(inputButton);
-		currentCaractereNumber.splice(currentCaractereNumber.indexOf(parseInt(id.slice(2))), 1);
-		console.log(currentCaractereNumber.toString());
 		
+		// On met la balise form de notre html dans une variable JS pour pouvoir mieux y acceder
+		var extendable_form = document.getElementById('myForm')
+		// On recupere la balise HTML qui correspond au bouton "Supprimer caractere"
+		var inputButton = document.getElementById(id)
+		// On supprime la balise HTML correspondant au bouton en y accedant par la balise de formulaire
+		extendable_form.removeChild(inputButton);
+		// On enleve le maillon qui correspond a l'ID de notre balise (dans la liste des carracteres ajoutes)
+		currentCaractereNumber.splice(currentCaractereNumber.indexOf(parseInt(id.slice(2))), 1);
+
+		// console.log(currentCaractereNumber.toString());
 	}
 </script>
 
@@ -59,14 +83,13 @@
 		<textarea name="textarea"
 		rows="10" cols="30" placeholder="Description de l'espece."></textarea> 
 		
-		{% for i in range %}
-		<p> Texte : </p>
-		<input type="text" name="Mail">
+
+
+
 		<br>
-		{% endfor %}
+		<button type="button" onclick="AddCaractereInput()" id="AddInput">Ajouter Caractere</button>
 		<br>
-		<button type="button" onclick="AddCaractereInput()" id="AddInput">Plus</button>
-		<!-- <button type="button" onclick="AddCaractereInput()" id="RmInput">Remove Last</button> -->
+		
 		<button type="submit" onclick="alert('Merci pour votre participation ! ')">VALIDER</button>
 	</form>
 	<hr>
