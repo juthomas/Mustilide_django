@@ -11,8 +11,7 @@ def accueil(request):
 	return render(request,'cle/index.html', {'date_jour':date_du_jour_txt})
 
 def affiche_contact(request):
-	if request.method=='POST':
-		print('Hello boys !')
+
 	if request.method=='POST':
 		try :
 			send_mail(request.POST['Nomdefamille'] + " " + request.POST['Prenom'] + ' [Mustélidés]', # Objet mail
@@ -33,12 +32,50 @@ def affiche_ajouter(request):
 	print('Hello world')
 	# Espece.objects.create(nom='vache')
 	# Cle.objects.create(nom='hi')
-	if (Espece.objects.filter(nom='vache').exists()):
-		Espece.objects.create(nom='cochondingue', nom_latin='dingding', description='oui', cle_name_id=1)
-		print()
-	else :
-		Espece.objects.create(nom='vache', nom_latin='vachium', description='jajajaja', cle_name_id=1)
-		print()
+	if request.method=='POST':
+		print('Request Data :' + str(request.POST))
+		print('Nom espece :' + request.POST['espName'])
+		
+			
+		print('Nom latin :' + request.POST['latinName'])
+		print('Description :' + request.POST['description'])
+		print('Post members :' + str(len(request.POST)))
+		
+		if (Espece.objects.filter(nom=request.POST['espName']).exists()):
+			print('L\'espece est deja repertoriee')
+			return render(request, 'cle/page_ajouter.html', {})
+		Espece.objects.create(nom=request.POST['espName'], \
+		nom_latin=request.POST['latinName'], description=request.POST['description'], cle_name_id=1)
+
+
+
+		caracteresRestants = (len(request.POST) - 4) / 2
+		print('Remaining caracteres :' + str(caracteresRestants))
+		
+		i = 0
+		while (caracteresRestants > 0):
+			print('search ', caracteresRestants)
+			while not str('caractere' + str(i)) in request.POST:
+				i += 1
+			print('found at :', str(i))
+			print('Nom caractere ' + str(i) + ' :', request.POST['caractere' + str(i)] )
+			print('etat ' + str(i) + ' :', request.POST['etat' + str(i)] )
+			if (not Caractere.objects.filter(nom=request.POST['caractere' + str(i)]).exists()):
+				Caractere.objects.create(nom=request.POST['caractere' + str(i)])
+			i += 1
+			caracteresRestants -= 1
+		
+
+
+
+
+
+	# if (Espece.objects.filter(nom='vache').exists()):
+	# 	Espece.objects.create(nom='cochondingue', nom_latin='dingding', description='oui', cle_name_id=1)
+	# 	print()
+	# else :
+	# 	Espece.objects.create(nom='vache', nom_latin='vachium', description='jajajaja', cle_name_id=1)
+	# 	print()
 	## AJOUTER / VERIFIER NOUVELLE ESPECE
 	# NOM | NOM_LATIN | DESCRIPTION | CLE_NAME_ID => Auto : NOM ID
 	##
