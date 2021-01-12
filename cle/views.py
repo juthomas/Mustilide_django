@@ -2,7 +2,8 @@ from django.shortcuts import render,redirect
 from datetime import datetime
 from collections import Counter
 from django.core.mail import send_mail
-from cle.models import Espece, Caractere, Etat_caracteres, Espece_caractere
+import smtplib
+from cle.models import Espece, Caractere, Etat_caracteres, Espece_caractere, Cle
 
 def accueil(request):
 	date_du_jour = datetime.now()
@@ -11,19 +12,56 @@ def accueil(request):
 
 def affiche_contact(request):
 	if request.method=='POST':
-		send_mail(request.POST['Nomdefamille'] + " " + request.POST['Prenom'] + ' [Mustélidés]', # Objet mail
-		request.POST['textarea'] + "\n\nenvoyé par : " + request.POST['Mail'], # Contenu mail
-		'adressemustilidae@gmail.com', # Destinataire mail
-		['adressemustilidae@gmail.com'], # Destinataire
-		fail_silently=False)
-
+		print('Hello boys !')
+	if request.method=='POST':
+		try :
+			send_mail(request.POST['Nomdefamille'] + " " + request.POST['Prenom'] + ' [Mustélidés]', # Objet mail
+			request.POST['textarea'] + "\n\nenvoyé par : " + request.POST['Mail'], # Contenu mail
+			'adressemustilidae@gmail.com', # Destinataire mail
+			['adressemustilidae@gmail.com'], # Destinataire
+			fail_silently=False)
+		except smtplib.SMTPDataError as e:
+			print('Exception : ' + 'SMTPDataError' + ' Probablement trop de connections journalieres sur le serveur smtp')
+		else :
+			print('Exception inconnue')
 	return render(request, 'cle/page_contact.html', {})
 
 def affiche_liste(request):
 	return render(request, 'cle/page_liste.html', {})
 
 def affiche_ajouter(request):
-	return render(request, 'cle/page_ajouter.html', {})
+	print('Hello world')
+	# Espece.objects.create(nom='vache')
+	# Cle.objects.create(nom='hi')
+	if (Espece.objects.filter(nom='vache').exists()):
+		Espece.objects.create(nom='cochondingue', nom_latin='dingding', description='oui', cle_name_id=1)
+		print()
+	else :
+		Espece.objects.create(nom='vache', nom_latin='vachium', description='jajajaja', cle_name_id=1)
+		print()
+	## AJOUTER / VERIFIER NOUVELLE ESPECE
+	# NOM | NOM_LATIN | DESCRIPTION | CLE_NAME_ID => Auto : NOM ID
+	##
+
+
+	# FOR NOMBRE DE CARRACTERES:
+		## AJOUTER / VERIFIER CARACTERE
+		# NOM_CARACTERE -> Auto : CARACTERE ID
+
+		##
+
+
+		## AJOUTER / VERIFIER ETAT CARACTERE
+		#  ETAT | CARACTERE ID 
+
+		##	
+
+		## AJOUTER / VERIFIER CARACTERE ESPECE
+		#  ETAT | CARACTERE ID | ESPECE ID
+
+		##
+	# END
+	return render(request, 'cle/page_ajouter.html', {'range': range(3)})
 
 def affiche_specialiste(request):
 	return render(request, 'cle/page_specialiste.html', {})
