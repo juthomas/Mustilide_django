@@ -1,0 +1,12 @@
+{% extends "cle/pageref.html"%}
+{% block contenu_page %}
+<h4><font size="+3">Ajouter une clé</font></h4>
+<hr>
+<p> Bienvenue M. ....</p>
+<hr>
+<div id="out">
+{% if request.user.is_authenticated%}
+    <a href="{% url 'logout' %}"><img src="static/images/logout.png" height="50" width="50"></a>
+{% endif%}
+</div>
+{% endblock%}

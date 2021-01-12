@@ -1,0 +1,13 @@
+{% extends "cle/pageref.html"%}
+{% block contenu_page %}
+<h4><font size='+3'>Recherche d'une espèce en cours :</font></h4>
+<hr>
+<h4>Les espèces suivantes présentent le caractère <span style="color:#05C80E">{{c_test.caractere.nom}}</span> à l'état <span style="color:#05C80E">{{c_test.etat}}</span> :</h4>
+<ul>
+	{% for esp in l_esp %}
+		<li> {{esp.espece.nom}} </li><br>
+	{% endfor %}
+</ul>
+<hr>
+	<h5><font size='+3'><a href="{% url 'afficher_caractere' caid %}"><center>Continuer</center></a></font></h5>
+{% endblock %}

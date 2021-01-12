@@ -1,0 +1,24 @@
+{% extends "cle/pageref.html"%}
+{% block contenu_page %}
+
+<h4><font size="+3">Nous contacter</font></h4>
+<p> Pour tout renseignement, contact administratif, demande d'informations sur les clés ou les espèces, vous pouvez nous contacter 
+    en remplissant les champs ci-dessous. </p>
+<form align="center" action="" method="post">
+        {% csrf_token %}
+        Nom :<br>
+        <input type="text" name="Nomdefamille">
+        <br>
+        Prénom :<br>
+        <input type="text" name="Prenom">
+        <br>
+        Adresse mail :<br>
+        <input type="text" name="Mail">
+        <p> Texte : </p>
+        <textarea name="textarea"
+        rows="10" cols="30" placeholder=" Ecrivez votre texte ici."></textarea> 
+        <br>
+        <br>
+        <button type="submit" onclick="alert('Merci pour votre participation ! ')">VALIDER</button>
+</form>
+{% endblock%}

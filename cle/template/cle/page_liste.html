@@ -1,0 +1,26 @@
+{% extends "cle/pageref.html"%}
+{% block contenu_page %}
+<h4><font size="+3">Liste des clés des mustélidés</font></h4>
+	<li><a href="{% url 'afficheeurope' %}">Clé Europe</a></li>
+	<br>
+	<li><a href="{% url 'afficheamerique' %}">Clé Amérique</a></li>
+<br>
+<hr>
+<p><font size="+2"><b> Qu'est ce qu'une clé d'identification ?</b></font></p>
+<p> Dans le domaine de la biologie, une clé de détermination (aussi appelé clé d'identification), est un outil d'identification de taxons (espèce, de genre, famille, etc)  reposant sur une succession de choix d'alternatives portant sur les caractères d'un spécimen qui permet de l'identifier. L'identification se fait donc grâce aux attributs spécifiques du spécimen, par exemple taille, poids, couleurs, silhouettes etc... 
+Lorsqu'une clé est composée exclusivement de critères ayant chacun deux valeurs possibles, on parle alors de clés <span style="color:#05C80E">"dichotomiques"</span>, on parlera de clés <span style="color:#05C80E">"polytomiques"</span> le cas échéant. Les clés Europe et Amérique sont ainsi dichotomiques car l'utilisateur n'a que 2 choix possibles à chaque question.</p>
+<p>
+<font size="+2"><b>Différence entre clé "naturelle" et "artificielle"</b></font>:
+<br>
+<br>
+Dans notre cas, les clés présentent sur le site sont dîtes "artificielles" : elle ne suivent aucunes classification préétablie, tandis qu'à l'inverse les clés "naturelles" suivent une classification, ou chaque noeud correspond à un taxon. 
+</p>
+<p>
+<font size="+2"><b>Différence entre clé à accès simple et à accès multiple </b></font>:
+<br>
+<li><span style="color:#05C80E"> à accès simple </span>: l'ordre des caractères est fixe et déterminé par le concepteur de la clé. Il s'agit par exemple des clés de détermination traditionnelles. </li>
+<li><span style="color:#05C80E"> à accès multiple </span>: l'ordre des caractères est libre et choisi par l'utilisateur.</li>
+Dans notre cas, nos clés sont donc à accès simple. 
+</p>
+
+{% endblock%}

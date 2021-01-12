@@ -1,0 +1,12 @@
+{% extends "cle/pageref.html"%}
+{% block contenu_page %}
+<h4><font size="+3">Mustélidés d'Europe :</font></h4>
+<hr>
+<p>
+	<ul>
+	{% for ca in liste_caractere %}
+	<li><a href="{% url 'afficher_caractere' ca.id%}">{{ca.nom}}</a></li>
+	{% endfor%}
+</ul>
+</p>
+{% endblock%}

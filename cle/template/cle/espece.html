@@ -1,0 +1,12 @@
+{% extends "cle/pageref.html"%}
+{% block contenu_page %}
+<p>
+<b><font size="+3">{{  es.nom }}</font></b>
+<hr>
+<i>{{  es.nom_latin }}</i>
+<br>
+{{ es.description }}
+</p>
+<hr>
+<a href="{% url 'afficheeurope' %}">Retour à la clé</a>
+{% endblock %}

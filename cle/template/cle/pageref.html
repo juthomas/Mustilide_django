@@ -1,0 +1,46 @@
+{%load static%}
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="icon" type="image/png" href="static/images/logo.png" />
+	<div id='bandeau'>
+		<link rel="stylesheet" href="{% static 'css/style.css' %}">
+		<h1>Le site des Mustélidés</h1>
+		<h2>Site créé par {% block auteur_page%} Lisa Rouressol et Mélanie Van Weddingen{%endblock %}</h2>
+		<hr>
+	</div>
+	<div id='navbar'>
+	<ul class='nav'>
+    	<li><a href="{% url 'index' %}"> Accueil </a></li>
+    	<li><a href="{% url 'afficheliste' %}"> Liste des clés </a></li>
+    	<li><a href="{% url 'login' %}"> Ajouter une clé </a></li>
+    	<li><a href="{% url 'affichespecialiste' %}"> Le spécialiste </a></li>
+    	<li><a href="{% url 'affichecontact' %}"> Contact </a></li>
+    </ul>
+    </div>
+    <hr>
+</head>
+<body>
+	<div id="body-div">
+        {% block contenu_page%}
+        {%endblock %}
+	</div>
+	<div id='piedpage'>
+		<a href="#" class="button"> Retour en haut ↑</a>
+	</div>
+<script>
+    window.onscroll = function() {myFunction()};
+
+    var navbar = document.getElementById("navbar");
+    var sticky = navbar.offsetTop;
+
+    function myFunction() {
+      if (window.pageYOffset >= sticky) {
+        navbar.classList.add("sticky")
+      } else {
+        navbar.classList.remove("sticky");
+      }
+    }
+</script>
+</body>
+</html>
