@@ -2,8 +2,10 @@
 {% block contenu_page %}
 <h4><font size="+3">Liste des clés des mustélidés</font></h4>
 	<li><a href="{% url 'afficheeurope' %}">Clé Europe</a></li>
+	{% for element in liste_cle %}
 	<br>
-	<li><a href="{% url 'afficheamerique' %}">Clé Amérique</a></li>
+	<li><a href="{% url 'afficheamerique' %}">{{element.nom}}</a></li>
+	{% endfor%}
 <br>
 <hr>
 <p><font size="+2"><b> Qu'est ce qu'une clé d'identification ?</b></font></p>

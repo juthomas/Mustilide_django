@@ -26,7 +26,12 @@ def affiche_contact(request):
 	return render(request, 'cle/page_contact.html', {})
 
 def affiche_liste(request):
-	return render(request, 'cle/page_liste.html', {})
+	liste_cle = []
+	for element in Cle.objects.all():
+		if (element.id != 1):
+			liste_cle.append(element)
+	# print(liste_cle[0].nom)
+	return render(request, 'cle/page_liste.html', {'liste_cle': liste_cle})
 
 def affiche_ajouter(request):
 	print('Hello world')
@@ -66,7 +71,7 @@ def affiche_ajouter(request):
 
 		# On etabli combien de caracteres sont presents dans le formulaire
 		# en se basant sur la taille du formulaire
-		# 4 champs d'input + 1 token = 5 du coup on enleve 5
+		# 4 champs d'input + 1 token = 5, du coup on enleve 5
 		# 2 champs par caractere du coup on divise par 2 le reste pour avoir le nombre de caracteres
 		caracteresRestants = (len(request.POST) - 5) / 2
 		print('Remaining caracteres :' + str(caracteresRestants))
