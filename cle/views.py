@@ -42,12 +42,14 @@ def affiche_ajouter(request):
 		print('Description :' + request.POST['description'])
 		print('Post members :' + str(len(request.POST)))
 		
+
 		# Partie pour regarder Si la cle de region existe
 		# si elle n'existe pas on la cree
 		if (not Cle.objects.filter(nom=request.POST['cleRegion']).exists()):
-			Cle.objects.create(nom=request.POST['cleRegion'])
+			cleRegion = Cle.objects.create(nom=request.POST['cleRegion'])
 		else :
-			print('La cle de region "' + request.POST['cleRegion'] + '" existe deja')
+			cleRegion = Cle.objects.filter(nom=request.POST['cleRegion'])[0]
+		print('La cle de region id : ' + str(cleRegion.id))
 
 
 		# On regarde si l'espece existe deja, si elle existe,
@@ -58,8 +60,8 @@ def affiche_ajouter(request):
 		
 		# On cree une nouvelle espece dans la BD avec son nom,
 		# son nom latin et sa description
-		Espece.objects.create(nom=request.POST['espName'], \
-		nom_latin=request.POST['latinName'], description=request.POST['description'], cle_name_id=1)
+		cleEspece = Espece.objects.create(nom=request.POST['espName'], \
+		nom_latin=request.POST['latinName'], description=request.POST['description'], cle_name_id=cleRegion.id)
 
 
 		# On etabli combien de caracteres sont presents dans le formulaire
@@ -78,7 +80,18 @@ def affiche_ajouter(request):
 			print('Nom caractere ' + str(i) + ' :', request.POST['caractere' + str(i)] )
 			print('etat ' + str(i) + ' :', request.POST['etat' + str(i)] )
 			if (not Caractere.objects.filter(nom=request.POST['caractere' + str(i)]).exists()):
-				Caractere.objects.create(nom=request.POST['caractere' + str(i)])
+				cleCaractere = Caractere.objects.create(nom=request.POST['caractere' + str(i)])
+			else :
+				cleCaractere = Caractere.objects.filter(nom=request.POST['caractere' + str(i)])[0]
+			
+			if (not Etat_caracteres.objects.filter(etat=request.POST['etat' + str(i)]).exists()):
+				cleEtat= Etat_caracteres.objects.create(etat=request.POST['etat' + str(i)], caractere_id=cleCaractere.id)
+			else :
+				cleEtat = Etat_caracteres.objects.filter(etat=request.POST['etat' + str(i)])[0]
+			Espece_caractere.objects.create(etat=request.POST['etat' + str(i)],
+														caractere_id=cleCaractere.id,
+														espece_id=cleEspece.id)
+			
 			i += 1
 			caracteresRestants -= 1
 		
