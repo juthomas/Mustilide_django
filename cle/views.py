@@ -22,15 +22,16 @@ def affiche_contact(request):
 		except smtplib.SMTPDataError as e:
 			print('Exception : ' + 'SMTPDataError' + ' Probablement trop de connections journalieres sur le serveur smtp')
 		else :
-			print('Exception inconnue')
+			print('Tout va bien')
 	return render(request, 'cle/page_contact.html', {})
 
 def affiche_liste(request):
+	# on cree une liste des Cles mais sans la cle europe pour
+	# pouvoir les afficher sur la page web
 	liste_cle = []
 	for element in Cle.objects.all():
 		if (element.id != 1):
 			liste_cle.append(element)
-	# print(liste_cle[0].nom)
 	return render(request, 'cle/page_liste.html', {'liste_cle': liste_cle})
 
 def affiche_ajouter(request):
