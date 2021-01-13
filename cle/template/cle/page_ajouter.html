@@ -29,10 +29,10 @@
 		// On cree l'html de notre formulaire de caractere
 		// (avec un nom, un id, et un parametre pour la fonction de suppression qui correspond à l"ID)
 		var caractere = '<p> Caractere ' + i + ' : </p> 		Nom Caractere \
-		<input type="text" name="caractere' + i + '">\
+		<input type="text" name="caractere' + i + '" placeholder="Ex: Taille de la queue">\
 		</br>\
 		Etat\
-		<input type="text" name="etat' + i + '">\
+		<input type="text" name="etat' + i + '"placeholder="Ex: Longue">\
 			<button type="button" onclick="RmCurrentCaractereInput(\'id' + i + '\')" >Supprimer Caractere</button>'
 
 		// On met le code HTML ci-dessus dans notre balise <p>
@@ -73,11 +73,14 @@
 <p> Bienvenue {{ request.user.username }}</p>
 	<form id="myForm" align="center" action="" method="post">
 		{% csrf_token %}
+		Clé Région :<br>
+		<input type="text" name="cleRegion" placeholder="Ex: Clé d'Europe">
+		<br>
 		Nom Espece :<br>
-		<input type="text" name="espName">
+		<input type="text" name="espName" placeholder="Ex: Putois marbré">
 		<br>
 		Nom Latin :<br>
-		<input type="text" name="latinName">
+		<input type="text" name="latinName" placeholder="Ex: Vormela peregusna">
 		<br>
 		Description :<br>
 		<textarea name="description"

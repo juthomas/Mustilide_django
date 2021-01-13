@@ -34,6 +34,7 @@ def affiche_ajouter(request):
 	# Cle.objects.create(nom='hi')
 	if request.method=='POST':
 		print('Request Data :' + str(request.POST))
+		print('Cle Region :' + request.POST['cleRegion'])
 		print('Nom espece :' + request.POST['espName'])
 		
 			
@@ -41,15 +42,31 @@ def affiche_ajouter(request):
 		print('Description :' + request.POST['description'])
 		print('Post members :' + str(len(request.POST)))
 		
+		# Partie pour regarder Si la cle de region existe
+		# si elle n'existe pas on la cree
+		if (not Cle.objects.filter(nom=request.POST['cleRegion']).exists()):
+			Cle.objects.create(nom=request.POST['cleRegion'])
+		else :
+			print('La cle de region "' + request.POST['cleRegion'] + '" existe deja')
+
+
+		# On regarde si l'espece existe deja, si elle existe,
+		# on ne rempli pas la base de donnees
 		if (Espece.objects.filter(nom=request.POST['espName']).exists()):
 			print('L\'espece est deja repertoriee')
 			return render(request, 'cle/page_ajouter.html', {})
+		
+		# On cree une nouvelle espece dans la BD avec son nom,
+		# son nom latin et sa description
 		Espece.objects.create(nom=request.POST['espName'], \
 		nom_latin=request.POST['latinName'], description=request.POST['description'], cle_name_id=1)
 
 
-
-		caracteresRestants = (len(request.POST) - 4) / 2
+		# On etabli combien de caracteres sont presents dans le formulaire
+		# en se basant sur la taille du formulaire
+		# 4 champs d'input + 1 token = 5 
+		# 2 champs par caractere
+		caracteresRestants = (len(request.POST) - 5) / 2
 		print('Remaining caracteres :' + str(caracteresRestants))
 		
 		i = 0
