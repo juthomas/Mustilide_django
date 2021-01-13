@@ -43,8 +43,8 @@ def affiche_ajouter(request):
 		print('Post members :' + str(len(request.POST)))
 		
 
-		# Partie pour regarder Si la cle de region existe
-		# si elle n'existe pas on la cree
+		# Si la cle de region existe on la stocke dans une variable pour plus tard
+		# sinon on la cree et on la stocke dans une variable (pour plus tard)
 		if (not Cle.objects.filter(nom=request.POST['cleRegion']).exists()):
 			cleRegion = Cle.objects.create(nom=request.POST['cleRegion'])
 		else :
@@ -59,35 +59,47 @@ def affiche_ajouter(request):
 			return render(request, 'cle/page_ajouter.html', {})
 		
 		# On cree une nouvelle espece dans la BD avec son nom,
-		# son nom latin et sa description
+		# son nom latin et sa description, et l'id de la cle de region
 		cleEspece = Espece.objects.create(nom=request.POST['espName'], \
 		nom_latin=request.POST['latinName'], description=request.POST['description'], cle_name_id=cleRegion.id)
 
 
 		# On etabli combien de caracteres sont presents dans le formulaire
 		# en se basant sur la taille du formulaire
-		# 4 champs d'input + 1 token = 5 
-		# 2 champs par caractere
+		# 4 champs d'input + 1 token = 5 du coup on enleve 5
+		# 2 champs par caractere du coup on divise par 2 le reste pour avoir le nombre de caracteres
 		caracteresRestants = (len(request.POST) - 5) / 2
 		print('Remaining caracteres :' + str(caracteresRestants))
 		
+
 		i = 0
+		# On tourne tant qu'on a pas trouvé tous les caracteres
 		while (caracteresRestants > 0):
 			print('search ', caracteresRestants)
+			# On cherche le premier caractere on iterant les numeros
+			# pcq on peut avoir par exemple caractere 3, 5 et pas
+			# le reste si on a supprimé des caracteres sur la page Web
 			while not str('caractere' + str(i)) in request.POST:
 				i += 1
 			print('found at :', str(i))
 			print('Nom caractere ' + str(i) + ' :', request.POST['caractere' + str(i)] )
 			print('etat ' + str(i) + ' :', request.POST['etat' + str(i)] )
+			
+			# Si le caractere existe pas, on le crée et on le stocke dans une variable,
+			# sinon on le recupere dans une variable
 			if (not Caractere.objects.filter(nom=request.POST['caractere' + str(i)]).exists()):
 				cleCaractere = Caractere.objects.create(nom=request.POST['caractere' + str(i)])
 			else :
 				cleCaractere = Caractere.objects.filter(nom=request.POST['caractere' + str(i)])[0]
 			
+			# Si le l'etat du caractere existe pas, on le crée et on le stocke dans une variable,
+			# sinon on le recupere dans une variable
 			if (not Etat_caracteres.objects.filter(etat=request.POST['etat' + str(i)]).exists()):
 				cleEtat= Etat_caracteres.objects.create(etat=request.POST['etat' + str(i)], caractere_id=cleCaractere.id)
 			else :
 				cleEtat = Etat_caracteres.objects.filter(etat=request.POST['etat' + str(i)])[0]
+			
+			# On cree le caractere dans la BD avec l'etat, l'id du caractere, et l'id de l'espece
 			Espece_caractere.objects.create(etat=request.POST['etat' + str(i)],
 														caractere_id=cleCaractere.id,
 														espece_id=cleEspece.id)
@@ -100,34 +112,7 @@ def affiche_ajouter(request):
 
 
 
-	# if (Espece.objects.filter(nom='vache').exists()):
-	# 	Espece.objects.create(nom='cochondingue', nom_latin='dingding', description='oui', cle_name_id=1)
-	# 	print()
-	# else :
-	# 	Espece.objects.create(nom='vache', nom_latin='vachium', description='jajajaja', cle_name_id=1)
-	# 	print()
-	## AJOUTER / VERIFIER NOUVELLE ESPECE
-	# NOM | NOM_LATIN | DESCRIPTION | CLE_NAME_ID => Auto : NOM ID
-	##
 
-
-	# FOR NOMBRE DE CARRACTERES:
-		## AJOUTER / VERIFIER CARACTERE
-		# NOM_CARACTERE -> Auto : CARACTERE ID
-
-		##
-
-
-		## AJOUTER / VERIFIER ETAT CARACTERE
-		#  ETAT | CARACTERE ID 
-
-		##	
-
-		## AJOUTER / VERIFIER CARACTERE ESPECE
-		#  ETAT | CARACTERE ID | ESPECE ID
-
-		##
-	# END
 	return render(request, 'cle/page_ajouter.html', {})
 
 def affiche_specialiste(request):
